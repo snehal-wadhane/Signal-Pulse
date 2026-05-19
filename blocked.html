@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus Mode - Signal Pulse</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .icon {
+      font-size: 120px;
+      margin-bottom: 30px;
+      animation: pulse 2.5s ease-in-out infinite;
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.2));
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+    }
+
+    h1 {
+      font-size: 56px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      font-size: 24px;
+      opacity: 0.95;
+      margin-bottom: 40px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .timer {
+      font-size: 72px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      margin: 40px 0;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      padding: 30px 60px;
+      border-radius: 24px;
+      display: inline-block;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .message-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
+      margin: 40px 0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .message-box p {
+      font-size: 18px;
+      line-height: 1.7;
+      margin-bottom: 15px;
+      opacity: 0.95;
+    }
+
+    .message-box strong {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .btn {
+      padding: 16px 32px;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: white;
+      color: #667eea;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .tips {
+      margin-top: 50px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      text-align: left;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .tips h3 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tips ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .tips li {
+      padding: 12px 0;
+      padding-left: 30px;
+      position: relative;
+      font-size: 15px;
+      opacity: 0.95;
+      line-height: 1.6;
+    }
+
+    .tips li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+      font-size: 18px;
+      color: #38ef7d;
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 40px; }
+      .subtitle { font-size: 18px; }
+      .timer { font-size: 56px; padding: 20px 40px; }
+      .icon { font-size: 80px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">🎯</div>
+    <h1>Focus Mode Active</h1>
+    <p class="subtitle">This site is blocked to help you maintain deep focus</p>
+    
+    <div id="timer" class="timer">--:--</div>
+    
+    <div class="message-box">
+      <p><strong>Stay on track!</strong></p>
+      <p>You're building valuable deep work habits. Every minute of uninterrupted focus compounds your productivity and skills.</p>
+      <p>Research shows it takes 23 minutes to regain focus after a distraction. You're protecting your most valuable resource: attention.</p>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="history.back()">
+        ← Go Back to Work
+      </button>
+      <button class="btn btn-secondary" onclick="endFocusMode()">
+        End Focus Mode
+      </button>
+    </div>
+
+    <div class="tips">
+      <h3>💡 Maximize Your Focus Session</h3>
+      <ul>
+        <li>Close unnecessary tabs and applications</li>
+        <li>Put your phone on Do Not Disturb mode</li>
+        <li>Use noise-canceling headphones or focus music</li>
+        <li>Work in 25-50 minute blocks (Pomodoro technique)</li>
+        <li>Take 5-10 minute breaks between sessions</li>
+        <li>Stay hydrated and maintain good posture</li>
+        <li>Tackle your most important task first</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    async function updateTimer() {
+      try {
+        const result = await chrome.storage.local.get('settings');
+        const settings = result.settings || {};
+        
+        if (settings.focusModeActive && settings.focusModeEnd) {
+          const now = Date.now();
+          const remaining = Math.max(0, settings.focusModeEnd - now);
+          
+          const minutes = Math.floor(remaining / (1000 * 60));
+          const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+          
+          document.getElementById('timer').textContent = 
+            `${minutes}:${seconds.toString().padStart(2, '0')}`;
+          
+          if (remaining === 0) {
+            window.close();
+          }
+        }
+      } catch (error) {
+        console.error('Error updating timer:', error);
+      }
+    }
+
+    async function endFocusMode() {
+      if (confirm('Are you sure you want to end focus mode early?')) {
+        const result = await chrome.storage.local.get('settings');
+        const settings = result.settings || {};
+        settings.focusModeActive = false;
+        await chrome.storage.local.set({ settings });
+        
+        window.close();
+      }
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  </script>
+</body>
+</html>

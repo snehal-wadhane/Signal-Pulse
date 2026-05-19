@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signal Pulse</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    
+    <!-- Header with gradient -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+          <div>
+            <h1>Signal Pulse</h1>
+            <p class="tagline">Workplace Wellness</p>
+          </div>
+        </div>
+        <button id="settingsBtn" class="icon-btn" title="Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v6m0 6v6m-9-9h6m6 0h6m-4.64-4.64l-4.24 4.24m0 6l4.24 4.24M7.76 7.76L3.52 3.52m0 16.96l4.24-4.24"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Focus Mode Banner -->
+    <div id="focusBanner" class="focus-banner hidden">
+      <div class="focus-content">
+        <div class="focus-icon">🎯</div>
+        <div class="focus-info">
+          <div class="focus-title">Focus Mode Active</div>
+          <div id="focusTimer" class="focus-timer">25:00</div>
+        </div>
+        <button id="endFocusBtn" class="focus-end-btn">End</button>
+      </div>
+    </div>
+
+    <!-- Main Stats Grid -->
+    <div class="stats-grid">
+      
+      <!-- Focus Score Card -->
+      <div class="stat-card highlight">
+        <div class="stat-header">
+          <span class="stat-label">Focus Score</span>
+          <span class="stat-icon">🎯</span>
+        </div>
+        <div class="stat-value-container">
+          <div id="focusScore" class="stat-value large">--</div>
+          <span class="stat-unit">/100</span>
+        </div>
+        <div class="progress-bar">
+          <div id="focusScoreProgress" class="progress-fill"></div>
+        </div>
+        <div id="scoreMessage" class="stat-message">Analyzing...</div>
+      </div>
+
+      <!-- Deep Work Card -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Deep Work</span>
+          <span class="stat-icon">⚡</span>
+        </div>
+        <div class="stat-value-container">
+          <div id="deepWorkTime" class="stat-value">--</div>
+          <span class="stat-unit">hrs</span>
+        </div>
+        <div class="stat-detail">
+          <div id="deepWorkSessions" class="sessions-count">-- sessions</div>
+          <div id="goalProgress" class="goal-progress">Goal: 4h</div>
+        </div>
+      </div>
+
+      <!-- Pattern Card -->
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Work Pattern</span>
+          <span class="stat-icon">📊</span>
+        </div>
+        <div id="pattern" class="pattern-display">
+          <div class="pattern-icon">🔄</div>
+          <div class="pattern-text">Loading...</div>
+        </div>
+        <div id="switches" class="switches-count">-- switches today</div>
+      </div>
+
+      <!-- Streak Card -->
+      <div class="stat-card streak-card">
+        <div class="stat-header">
+          <span class="stat-label">Streak</span>
+          <span class="stat-icon">🔥</span>
+        </div>
+        <div class="stat-value-container">
+          <div id="streakDays" class="stat-value">--</div>
+          <span class="stat-unit">days</span>
+        </div>
+        <div class="stat-message">Keep it going!</div>
+      </div>
+
+    </div>
+
+    <!-- Time Breakdown -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Today's Activity</h2>
+        <span id="totalTime" class="total-time">--</span>
+      </div>
+      
+      <div class="time-chart">
+        <div class="time-bar-container">
+          <div class="time-bars">
+            <div id="workBar" class="time-bar work-bar" style="width: 0%"></div>
+            <div id="commBar" class="time-bar comm-bar" style="width: 0%"></div>
+            <div id="distractBar" class="time-bar distract-bar" style="width: 0%"></div>
+          </div>
+        </div>
+        
+        <div class="time-legend">
+          <div class="legend-item">
+            <span class="legend-dot work-dot"></span>
+            <span class="legend-label">Work</span>
+            <span id="workTime" class="legend-value">--</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot comm-dot"></span>
+            <span class="legend-label">Communication</span>
+            <span id="commTime" class="legend-value">--</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot distract-dot"></span>
+            <span class="legend-label">Distraction</span>
+            <span id="distractTime" class="legend-value">--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Recent Activity</h2>
+        <span class="activity-live">● Live</span>
+      </div>
+      <div id="recentActivity" class="activity-list">
+        <div class="activity-item skeleton">
+          <div class="activity-icon">...</div>
+          <div class="activity-details">
+            <div class="activity-domain">Loading...</div>
+            <div class="activity-time">--</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Insights -->
+    <div id="insightsSection" class="section insights-section hidden">
+      <div class="section-header">
+        <h2>💡 Insights</h2>
+      </div>
+      <div id="insightsList" class="insights-list">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="actions">
+      <button id="focusModeBtn" class="btn btn-primary btn-large">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span>Start Focus Mode</span>
+      </button>
+      
+      <div class="btn-group">
+        <button id="tasksBtn" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+          <span>My Tasks</span>
+        </button>
+        
+        <button id="viewReportBtn" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 20V10M12 20V4M6 20v-6"/>
+          </svg>
+          <span>Weekly Report</span>
+        </button>
+      </div>
+      
+      <div class="btn-group">
+        <button id="aiDashboardBtn" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 16v-4"/>
+            <path d="M12 8h.01"/>
+          </svg>
+          <span>🤖 AI Dashboard</span>
+        </button>
+        
+        <button id="managerInsightsBtn" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <span>Manager Insights</span>
+        </button>
+      </div>
+      
+      <div class="btn-group">
+        <button id="exportBtn" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span>Export Data</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="privacy-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <span>All data stays local</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>⚙️ Settings</h2>
+        <button id="closeSettings" class="icon-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        
+        <div class="setting-group">
+          <label class="setting-label">Focus Mode Duration</label>
+          <div class="slider-container">
+            <input type="range" id="focusDuration" min="5" max="30" value="5" step="5">
+            <span id="focusDurationValue" class="slider-value">5 min</span>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Daily Deep Work Goal</label>
+          <div class="slider-container">
+            <input type="range" id="dailyGoal" min="0.03" max="4" value="0.03" step="0.01">
+            <span id="dailyGoalValue" class="slider-value">2 min</span>
+          </div>
+          <p class="setting-description" style="font-size: 11px; color: #6c757d; margin-top: 4px;">
+            Demo: 2 min = 0.03 hrs (easy to achieve!)
+          </p>
+        </div>
+
+        <div class="setting-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="nudgesEnabled" checked>
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Smart Nudges</span>
+          </label>
+          <p class="setting-description">Get notified when fragmentation is high</p>
+        </div>
+
+        <div class="setting-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="soundEnabled" checked>
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Sound Notifications</span>
+          </label>
+        </div>
+
+        <div class="setting-group">
+          <button id="clearDataBtn" class="btn btn-danger">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+            Clear All Data
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

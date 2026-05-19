@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasks - Signal Pulse</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8f9fa;
+      padding: 40px 20px;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 40px;
+      border-radius: 16px;
+      margin-bottom: 30px;
+    }
+    
+    header h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+    
+    .add-task-section {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    
+    .add-task-form {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .task-input {
+      flex: 1;
+      padding: 14px;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+    
+    .task-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    .category-select {
+      padding: 14px;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 14px;
+      background: white;
+      min-width: 150px;
+    }
+    
+    .add-btn {
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    .add-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+    
+    .privacy-notice {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #92400e;
+    }
+    
+    .tasks-list {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px;
+      background: #f9fafb;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      transition: all 0.3s;
+    }
+    
+    .task-item:hover {
+      background: #f3f4f6;
+    }
+    
+    .task-item.completed {
+      opacity: 0.6;
+    }
+    
+    .task-checkbox {
+      width: 24px;
+      height: 24px;
+      border: 2px solid #667eea;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .task-checkbox.checked {
+      background: #667eea;
+      color: white;
+    }
+    
+    .task-content {
+      flex: 1;
+    }
+    
+    .task-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 5px;
+    }
+    
+    .task-item.completed .task-title {
+      text-decoration: line-through;
+    }
+    
+    .task-meta {
+      font-size: 13px;
+      color: #6b7280;
+    }
+    
+    .task-category {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .category-work {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    
+    .category-communication {
+      background: #fce7f3;
+      color: #9f1239;
+    }
+    
+    .category-entertainment {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    .category-other {
+      background: #f3f4f6;
+      color: #374151;
+    }
+    
+    .task-status {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    
+    .status-completed {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    
+    .status-in-progress {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    .status-pending {
+      background: #e5e7eb;
+      color: #374151;
+    }
+    
+    .delete-btn {
+      padding: 8px 16px;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #6b7280;
+    }
+    
+    .empty-state-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <header>
+      <h1>✅ Task Management</h1>
+      <p>Add tasks and let Signal Pulse detect when you complete them</p>
+    </header>
+
+    <div class="add-task-section">
+      <h2 style="margin-bottom: 20px;">Add New Task</h2>
+      
+      <div class="add-task-form">
+        <input 
+          type="text" 
+          id="taskInput" 
+          class="task-input" 
+          placeholder="e.g., Write project documentation"
+        />
+        
+        <select id="categorySelect" class="category-select">
+          <option value="work">Work</option>
+          <option value="communication">Communication</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="other">Other</option>
+        </select>
+        
+        <button id="addTaskBtn" class="add-btn">Add Task</button>
+      </div>
+      
+      <div class="privacy-notice">
+        🔒 <strong>Privacy-First:</strong> Tasks are detected automatically when you work on websites matching the category. No specific URLs are tracked - only categories (Work, Communication, Entertainment).
+      </div>
+    </div>
+
+    <div class="tasks-list">
+      <h2 style="margin-bottom: 20px;">Your Tasks</h2>
+      <div id="tasksList">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+
+  </div>
+
+  <script src="tasks.js"></script>
+</body>
+</html>

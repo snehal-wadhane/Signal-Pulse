@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Report - Signal Pulse</title>
+  <link rel="stylesheet" href="report.css">
+</head>
+<body>
+  <div class="container">
+    
+    <header>
+      <h1>📊 Weekly Wellness Report</h1>
+      <p id="dateRange">Last 7 Days</p>
+    </header>
+
+    <div class="stats-grid">
+      <div class="stat-card highlight">
+        <div class="stat-label">Total Deep Work</div>
+        <div class="stat-value"><span id="totalDeepWork">--</span> <span class="unit">hrs</span></div>
+        <div class="stat-trend" id="deepWorkTrend"></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Avg Focus Score</div>
+        <div class="stat-value"><span id="avgFocusScore">--</span><span class="unit">/100</span></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Context Switches</div>
+        <div class="stat-value"><span id="totalSwitches">--</span></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Best Day</div>
+        <div class="stat-value"><span id="bestDay">--</span></div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <h2>Deep Work Trend</h2>
+      <canvas id="trendChart" width="800" height="300"></canvas>
+    </div>
+
+    <div class="insights-section">
+      <h2>💡 Insights & Recommendations</h2>
+      <div id="insightsList"></div>
+    </div>
+
+    <div class="footer-actions">
+      <button onclick="window.print()" class="btn btn-secondary">🖨️ Print Report</button>
+      <button onclick="window.close()" class="btn btn-primary">Close</button>
+    </div>
+
+  </div>
+
+  <script src="report.js"></script>
+</body>
+</html>

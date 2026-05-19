@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manager Insights - Signal Pulse</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8f9fa;
+      padding: 40px 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 40px;
+      border-radius: 16px;
+      margin-bottom: 30px;
+    }
+    
+    header h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+    
+    .privacy-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 10px 15px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 15px;
+      font-size: 13px;
+    }
+    
+    .insight-card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    
+    .insight-card h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #667eea;
+    }
+    
+    .recommendation {
+      background: #f0f7ff;
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+    
+    .recommendation-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+    
+    .recommendation-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #4b5563;
+    }
+    
+    .weekday-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .day-card {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      border: 2px solid transparent;
+      transition: all 0.3s;
+    }
+    
+    .day-card.best {
+      background: #d1fae5;
+      border-color: #10b981;
+    }
+    
+    .day-card.worst {
+      background: #fee2e2;
+      border-color: #ef4444;
+    }
+    
+    .day-name {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+    
+    .day-score {
+      font-size: 32px;
+      font-weight: 800;
+      color: #667eea;
+      margin: 10px 0;
+    }
+    
+    .day-label {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    
+    .day-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    
+    .badge-best {
+      background: #10b981;
+      color: white;
+    }
+    
+    .badge-worst {
+      background: #ef4444;
+      color: white;
+    }
+    
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: #6b7280;
+    }
+    
+    .stat-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111827;
+    }
+    
+    .warning-box {
+      background: #fff7ed;
+      border: 2px solid #f59e0b;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    
+    .warning-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #f59e0b;
+      margin-bottom: 10px;
+    }
+    
+    .action-button {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    
+    .action-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <header>
+      <h1>👔 Manager Insights</h1>
+      <p>Team productivity patterns to optimize scheduling</p>
+      <div class="privacy-badge">
+        🔒 Privacy-Safe: Aggregated data only, no individual tracking
+      </div>
+    </header>
+
+    <div class="insight-card">
+      <h2>📊 Weekly Focus Patterns</h2>
+      <p style="margin-bottom: 20px; color: #6b7280;">Based on team's aggregated productivity data</p>
+      
+      <div class="weekday-grid" id="weekdayGrid">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <h2>💡 Smart Scheduling Recommendations</h2>
+      <div id="recommendations">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <h2>📈 Team Productivity Metrics</h2>
+      <div id="teamMetrics">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <div class="warning-title">⚠️ Privacy Notice</div>
+      <p>This data is aggregated from your personal usage only (simulated team data for demo). In production, this would aggregate data from multiple team members while maintaining individual privacy.</p>
+    </div>
+
+  </div>
+
+  <script src="manager-insights.js"></script>
+</body>
+</html>
