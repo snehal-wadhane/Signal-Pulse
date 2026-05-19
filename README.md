@@ -63,7 +63,3 @@ signal-pulse-COMPLETE/
 ## Privacy
 
 All processing and storage happens entirely on-device. No analytics, no external requests, no accounts required.
-
-## License
-
-MIT
